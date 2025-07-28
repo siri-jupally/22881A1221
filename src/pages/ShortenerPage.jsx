@@ -7,8 +7,8 @@ function ShortenerPage(){
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!originalUrl){
-             alert('Please enter a URL to shorten.');
-             return;
+             log('warn', 'page', 'User tried to submit an empty URL.'); // 'page' is the package
+            return;
             }
         const getAllUrls= storage.getAllUrls();
         if (getAllUrls.some(url => url.originalUrl === originalUrl)) {
@@ -26,6 +26,7 @@ function ShortenerPage(){
         // Save to local storage
         const updatedUrls = [...getAllUrls, newUrl];
         storage.saveAllUrls(updatedUrls);
+        log('info', 'page', 'Successfully created a new shortened URL.', { shortCode: newUrl.shortCode });
         
         // Update state
         const fullshorturl = `${window.location.origin}/${shortCode}`;
